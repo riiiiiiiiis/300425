@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>МОДЕРДНЫ | Выставка цифрового хаоса</title>
+    <style>
+        :root {
+            --color1: #ff00ff;
+            --color2: #00ffff;
+            --color3: #ffff00;
+            --color4: #ff3300;
+            --color5: #00ff33;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+        
+        .art-container {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.1),
+                rgba(0, 0, 0, 0.1) 10px,
+                rgba(255, 255, 255, 0.05) 10px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.3;
+        }
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAATASURBVGhD7ZpNaBxVGIbfmdkkm43JpsQmlOZnY0XbirWCmFoVRdBLL4o3L169KVRQEbwoXhQvehREBEFEFBFEihdREINGSUgTmzRNUtP8dJNsdjP7M+P7fTPfZiZ1d2ZnZuVQ+sKzs7Pz/bzzzXzzzXcUOXv2bA4GaVBGbm2aaIyMjLScl0olOXXq1IZ9kYptbGzIzs6OlMtlqVQqUigUZHt7W/L5vFy/fl1OnjwphUIhZYTd3d2wLRaLcubMGbl48aLMzs7KxMSEjI+Py9zcnFy7dk2y2axcuXJFTp8+LatOWCsrK/Lo0aMt2xOJhIyOjsrFixfl6tWrmjI8PCyXL1+WpaUlyeVycuXKFXnssccS9UZcHh+PF15TnisWi3L48GG5dOmS5m9tbcni4qKcPHlSDh06JEtLS/o/kUjI0NCQ5PN5WVhYkOPHj8upU6e0jXLodOL6nSLKD2VxcVHLYP7ExEQohPIoZ3p6WoWUnaFUTU1NqRhErK6uarhiHqHG6BTSxCCfz7qyJlwJOAhTQa9evRqGKM8RQXY4mUxK2rW8tLQUCqGFKQ8EWNmY2N7eTrW0bm9hERaJsAhiWlglzIqwLVoIr+3v74eKEWBjY0Nmc3sBAhg7jFD39vYkm2L8Z0zzujlRN8JUrbW1NRVDrSCEOuHhfJPbS9ARajBLAEEbGxuSYkxJhHr+/PlQDLW1YrGYCmu5fVqUQzKiQoAoJn5TIRPDyQAhhA0PH09BuVyWpaUlyaUhKur0/v37VQgwRtLptHZUlBAKRQye3N3dlbQr1ErM9va2GNAuItxYoGr5MN7b2zPVyvr3LBNjFh7v7e1tKcSCJ+gI5RCebj7Ozk9OT88OVCuKVsLy+fzAxwgFDWKM+N8jwuKHYYyYBN3tJ2Ttg1K8IyJqJYaxwcfhDqxW3PiAT8zFxUVJuopDmLFQw3yMkGO2aDFGOAQdMR0hxNzwh4eHVRBnJ/KNCNeRTobVxcVF2yZWR8w5BuecfKF1Y4RwNZ+Y2UYUQzc+m1MZH4Tp5MaMeGojh7A1Z3xzcYkWM4hx4oMQdhvL3B11Xkc4OUWF0Gm+YMF+f6yOdJvaaIf5gRaC/f39IaQbI5ytokLY7rjVNTdvfKyNWohGp3lNYGPGtGc7Ql+E+NVI0K5aTU9Py+zsrC7mZv/nQ9nsGx8IwyKRTqeMELO/TE9Pa1j4YWpWK3/7E0HMhqq1sLCgC63Z3/kQNnRsbEwGce8VkMNNpVJADCt21CBfCCHGPVmkI9wnUQ4PD2Pn7MQYQEKoGHHHjx+Xubk5FZfNDubhKBVj/Z2dnc13bCQKnp/eUi4szN4yjMzNzck999wjmUzGztZ2DJVDCKcvdVtbW3Xn+3Egi7qxTm1sbGRKpZL94qBQKITz5Pb2tty8eVPS6bRsbm7Knj17ZN++fZrPxL2+vq5lWDKZlJGRER1T1EV91EMd5FO33t2Z5P3aInIdUV5ERbhTESGEoaYwHR0d1WMEbWxs1IlB1MGDB8P8aAd8Md2I6Hl7Qw6ijh07ZmeFQ+jMzc3ZvKAzQ0ND4cmW8J2amrJ5dZCDSPI3NzdlZGTEnq2tW7Gv3qZCGPDNxYj9R2eUlxF1IXrEVw3L5XJd5/9vsYzkDoXYf3aGSsWxXC7bY/FfdR8mTaSY1Z4AAAAASUVORK5CYII=');
+            pointer-events: none;
+            z-index: 90;
+            opacity: 0.1;
+            animation: noise 0.5s infinite;
+        }
+        
+        @keyframes noise {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.15; }
+            100% { opacity: 0.1; }
+        }
+        
+        .header {
+            position: relative;
+            padding: 2vw;
+            text-align: center;
+            mix-blend-mode: difference;
+            z-index: 10;
+        }
+        
+        h1 {
+            font-size: 10vw;
+            font-weight: 900;
+            letter-spacing: -0.5vw;
+            text-shadow: 0.3vw 0.3vw var(--color1), -0.3vw -0.3vw var(--color2);
+            transform: skew(-5deg);
+            animation: glitch 2s infinite alternate;
+        }
+        
+        @keyframes glitch {
+            0% {
+                text-shadow: 0.3vw 0.3vw var(--color1), -0.3vw -0.3vw var(--color2);
+            }
+            25% {
+                text-shadow: -0.3vw 0.3vw var(--color3), 0.3vw -0.3vw var(--color4);
+            }
+            50% {
+                text-shadow: 0.3vw 0.3vw var(--color5), -0.3vw -0.3vw var(--color1);
+            }
+            75% {
+                text-shadow: -0.3vw 0.3vw var(--color2), 0.3vw -0.3vw var(--color3);
+            }
+            100% {
+                text-shadow: 0.3vw 0.3vw var(--color4), -0.3vw -0.3vw var(--color5);
+            }
+        }
+        
+        .info {
+            position: relative;
+            max-width: 80%;
+            margin: 2vw auto;
+            padding: 2vw;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 10;
+            transform: rotate(-1deg);
+        }
+        
+        .info h2 {
+            color: var(--color2);
+            font-size: 3vw;
+            margin-bottom: 1vw;
+        }
+        
+        .info p {
+            font-size: 1.2vw;
+            line-height: 1.5;
+            margin-bottom: 1vw;
+        }
+        
+        .collage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .collage-item {
+            position: absolute;
+            transform: rotate(var(--rotate));
+            opacity: var(--opacity);
+            z-index: var(--z);
+            filter: hue-rotate(var(--hue)) contrast(var(--contrast));
+            mix-blend-mode: var(--blend);
+            pointer-events: none;
+        }
+        
+        .window {
+            position: absolute;
+            border: 2px solid #fff;
+            background: rgba(50, 50, 50, 0.7);
+            backdrop-filter: blur(5px);
+            border-radius: 5px;
+            padding: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+        }
+        
+        .window-title {
+            background: linear-gradient(to right, var(--color1), var(--color2));
+            padding: 5px;
+            margin: -10px -10px 10px -10px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .window-buttons {
+            display: flex;
+        }
+        
+        .window-buttons span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 5px;
+            display: inline-block;
+        }
+        
+        .emoji {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 1;
+            transition: opacity 1s ease-out;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="art-container">
+        <div class="glitch-overlay"></div>
+        <div class="noise"></div>
+        
+        <header class="header">
+            <h1>МОДЕРДНЫ</h1>
+        </header>
+        
+        <div class="info">
+            <h2>О ВЫСТАВКЕ</h2>
+            <p>Добро пожаловать в пространство цифрового хаоса, где границы между реальным и виртуальным стираются. Эта выставка исследует взаимоотношения человека с информационным шумом современности.</p>
+            <p>Взаимодействуйте с пространством — оно реагирует на ваше присутствие и движения. Чем больше вы исследуете, тем больше открываете.</p>
+        </div>
+        
+        <div class="info" style="transform: rotate(1deg); background: rgba(255, 0, 255, 0.2);">
+            <h2>КУРАТОРСКИЙ МАНИФЕСТ</h2>
+            <p>Мы живем в эпоху перенасыщения информацией, где алгоритмы формируют наше восприятие мира. Эта выставка — попытка деконструировать цифровую реальность и создать пространство критического осмысления современных медиа.</p>
+        </div>
+        
+        <div class="collage">
+            <!-- Динамически созданные элементы коллажа будут добавлены через JavaScript -->
+        </div>
+        
+        <div class="window" style="top: 15%; left: 5%; width: 300px; --z: 8;">
+            <div class="window-title">
+                <span>system.error</span>
+                <div class="window-buttons">
+                    <span style="background-color: #ff6b5b;"></span>
+                    <span style="background-color: #ffbe2e;"></span>
+                    <span style="background-color: #2aca44;"></span>
+                </div>
+            </div>
+            <p>Ошибка 404: Реальность не найдена</p>
+            <p>Искусство.exe запущено с ошибками</p>
+        </div>
+        
+        <div class="window" style="bottom: 20%; right: 10%; width: 250px; --z: 7;">
+            <div class="window-title">
+                <span>art.terminal</span>
+                <div class="window-buttons">
+                    <span style="background-color: #ff6b5b;"></span>
+                    <span style="background-color: #ffbe2e;"></span>
+                    <span style="background-color: #2aca44;"></span>
+                </div>
+            </div>
+            <p style="font-family: monospace; color: #0f0;">$ art --install perception</p>
+            <p style="font-family: monospace; color: #0f0;">$ reality --debug --verbose</p>
+        </div>
+    </div>
+    
+    <script>
+        // Массив эмодзи для интерактива
+        const emojis = ['🔥', '⚖️', '👁️', '💖', '💡', '🛫', '🔑', '🐇', '♻️', '🙏', '🖌️', '🖥️', '🗽', '👨🏻‍🎨'];
+        
+        // Создание хаотичного коллажа при загрузке страницы
+        function createChaosCollage() {
+            const collage = document.querySelector('.collage');
+            const container = document.querySelector('.art-container');
+            const containerWidth = container.clientWidth;
+            const containerHeight = container.clientHeight;
+            
+            // Массив элементов коллажа (символы, формы, текст)
+            const collageItems = [
+                '404', '❌', '⚠️', 'ERROR', 'CTRL', 'ALT', 'DELETE',
+                '⏱️', '💾', '📊', '📈', '📉', '📱', '💻', '🖥️',
+                'ХАОС', 'ЦИФРА', 'ИСКУССТВО', 'СЕТЬ', 'ДАННЫЕ', 'МЕТА',
+                '01001', '10101', 'DEBUG', 'GLITCH', 'VOID', '0x00FF00'
+            ];
+            
+            // Создание 50+ элементов коллажа
+            for (let i = 0; i < 70; i++) {
+                const item = document.createElement('div');
+                item.classList.add('collage-item');
+                
+                // Случайный текст из массива
+                const randomText = collageItems[Math.floor(Math.random() * collageItems.length)];
+                item.textContent = randomText;
+                
+                // Случайные стили
+                const randomSize = Math.random() * 5 + 1;
+                const randomX = Math.random() * 100;
+                const randomY = Math.random() * 100;
+                const randomRotate = Math.random() * 360;
+                const randomOpacity = Math.random() * 0.7 + 0.3;
+                const randomZIndex = Math.floor(Math.random() * 5);
+                const randomHue = Math.random() * 360;
+                const randomContrast = Math.random() * 2 + 0.5;
+                
+                // Blend modes
+                const blendModes = ['normal', 'multiply', 'screen', 'overlay', 'difference', 'exclusion'];
+                const randomBlend = blendModes[Math.floor(Math.random() * blendModes.length)];
+                
+                // Случайный цвет из переменных CSS
+                const colors = ['var(--color1)', 'var(--color2)', 'var(--color3)', 'var(--color4)', 'var(--color5)', '#fff'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Применяем стили
+                item.style.fontSize = `${randomSize}vw`;
+                item.style.left = `${randomX}%`;
+                item.style.top = `${randomY}%`;
+                item.style.color = randomColor;
+                item.style.fontWeight = 'bold';
+                item.style.setProperty('--rotate', `${randomRotate}deg`);
+                item.style.setProperty('--opacity', randomOpacity);
+                item.style.setProperty('--z', randomZIndex);
+                item.style.setProperty('--hue', `${randomHue}deg`);
+                item.style.setProperty('--contrast', randomContrast);
+                item.style.setProperty('--blend', randomBlend);
+                
+                collage.appendChild(item);
+            }
+        }
+        
+        // Эффект эмодзи, следующих за курсором
+        function handleMouseMove(e) {
+            // Создаем новый эмодзи при каждом движении курсора
+            if (Math.random() > 0.7) { // Снижаем частоту появления для производительности
+                const emoji = document.createElement('div');
+                emoji.classList.add('emoji');
+                
+                // Выбираем случайный эмодзи из массива
+                const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.textContent = randomEmoji;
+                
+                // Позиционируем около курсора с небольшим разбросом
+                const offsetX = (Math.random() - 0.5) * 40;
+                const offsetY = (Math.random() - 0.5) * 40;
+                emoji.style.left = `${e.clientX + offsetX}px`;
+                emoji.style.top = `${e.clientY + offsetY}px`;
+                
+                // Случайный размер
+                const randomSize = Math.random() * 2 + 1;
+                emoji.style.fontSize = `${randomSize}rem`;
+                
+                // Добавляем на страницу
+                document.body.appendChild(emoji);
+                
+                // Удаляем через 3 секунды
+                setTimeout(() => {
+                    emoji.style.opacity = '0';
+                    setTimeout(() => {
+                        document.body.removeChild(emoji);
+                    }, 1000);
+                }, 2000);
+            }
+        }
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            // Создаем коллаж
+            createChaosCollage();
+            
+            // Добавляем слежение за курсором
+            document.addEventListener('mousemove', handleMouseMove);
+        });
+    </script>
+</body>
+</html>

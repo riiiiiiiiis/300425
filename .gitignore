@@ -1,0 +1,30 @@
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Файлы сборки
+/dist
+/build
+/out
+
+# Файлы IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Файлы логов
+*.log
+
+# Файлы кэша
+node_modules/
+.pnp
+.pnp.js
+.cache
+
+# Файлы конфигурации
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

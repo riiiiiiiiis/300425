@@ -1,0 +1,90 @@
+@font-face {
+    font-family: 'DOS';
+    src: url('https://fonts.cdnfonts.com/s/28380/PerfectDOSVGA437Win.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+:root {
+    --bg-color: #000;
+    --text-color: #00ff9c;
+    --border-color: #00ff9c;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'DOS', monospace;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.menu {
+    width: 200px;
+    padding: 10px;
+    border-right: 2px solid var(--border-color);
+}
+
+.menu-item {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.menu-item:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.camera-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.camera-frame {
+    position: relative;
+    border: 2px solid var(--border-color);
+    width: 640px;
+    height: 480px;
+    overflow: hidden;
+}
+
+#outputCanvas {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+.status-bar {
+    height: 30px;
+    border-top: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.status-item {
+    margin-right: 20px;
+}
+
+.selection-box {
+    position: absolute;
+    border: 2px dashed var(--text-color);
+    pointer-events: none;
+    display: none;
+}

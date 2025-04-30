@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetroCam DOS</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="menu-item">[S] Save</div>
+            <div class="menu-item">[D] Delete</div>
+            <div class="menu-item">[C] Capture</div>
+            <div class="menu-item">[F] Filter</div>
+            <div class="menu-item">[ESC] Exit</div>
+        </div>
+        
+        <div class="camera-container">
+            <div class="camera-frame">
+                <canvas id="outputCanvas"></canvas>
+                <video id="video" autoplay playsinline hidden></video>
+                <canvas id="processCanvas" hidden></canvas>
+                <div id="selectionBox" class="selection-box"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="status-bar">
+        <div class="status-item">CTRL+F Filter Options</div>
+        <div class="status-item">CTRL+S Screenshot</div>
+        <div class="status-item">CTRL+Q Quit</div>
+    </div>
+    
+    <script src="js/main.js"></script>
+</body>
+</html>
