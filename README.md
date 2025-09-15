@@ -1,27 +1,33 @@
-# Retro Camera
+# Artistic Web Projects
 
-Проект веб-приложения с ретро-камерой.
+This repository is a collection of small, artistic web projects, each with a unique theme and technical implementation.
 
-## Структура проекта
+## Projects
 
-- `retro-cam/` - основной раздел проекта
-- `moderdny/` - дополнительный раздел
+### Retro Cam
+- **Location:** `retro-cam/`
+- **Description:** A web application that simulates a retro MS-DOS-based camera interface. It captures video from a webcam and presents it with a nostalgic, old-school UI.
+- **Technologies:** HTML, CSS, JavaScript
 
-## Технологии
+### Modern Art Exhibition
+- **Location:** `moderdny/`
+- **Description:** An interactive, glitch-art webpage for a digital art exhibition titled "МОДЕРДНЫ | Выставка цифрового хаоса" (MODERDNY | Exhibition of Digital Chaos). The page is a dynamic, chaotic collage that responds to user interaction.
+- **Technologies:** HTML, CSS, JavaScript
 
-- HTML5
-- CSS3
-- JavaScript
+### Biennale of Contemporary Art 2025
+- **Location:** `bienale/`
+- **Description:** A promotional webpage for the "Biennale of Contemporary Art 2025" in Moscow. It features a distinctive grid-based design and provides information about the event.
+- **Technologies:** HTML, CSS, JavaScript
 
-## Установка
+### Retro Dithering Webcam
+- **Location:** `openai.html`
+- **Description:** A single-page web application that captures webcam video and applies a real-time dithering effect, mimicking the look of early digital imaging.
+- **Technologies:** HTML, CSS, JavaScript (all in one file)
 
-1. Клонируйте репозиторий
-2. Откройте `index.html` в браузере
+## How to Run
 
-## Использование
+To view any of the projects, simply open the corresponding `index.html` file (or `openai.html`) in a web browser.
 
-Откройте `index.html` в браузере для запуска приложения.
-
-## Лицензия
+## License
 
 MIT
